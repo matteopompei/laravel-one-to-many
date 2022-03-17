@@ -25,6 +25,18 @@
               </div>
 
               <div class="form-group">
+                <label>Categoria</label>
+                <select name="category_id" class="form-control @error('content') is-invalid @enderror">
+                  <option value="" selected disabled hidden>Seleziona una categoria</option>
+                  @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">
+                      {{ $category->name }}
+                    </option>
+                  @endforeach
+                </select>
+              </div>
+
+              <div class="form-group">
                 <input type="submit" class="btn btn-success" value="Crea post">
               </div>
 
