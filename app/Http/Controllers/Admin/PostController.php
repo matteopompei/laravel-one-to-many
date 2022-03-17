@@ -41,7 +41,8 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'required|max:255',
-            'content' => 'required'
+            'content' => 'required',
+            'category_id' => 'nullable|exist:categories,id'
         ]);
 
         $form_data = $request->all();
@@ -96,20 +97,27 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'required|max:255',
-            'content' => 'required'
+            'content' => 'required',
+            // 'category_id' => 'nullable|exist:categories,id'
         ]);
 
         $form_data = $request->all();
 
-        $slugTmp = Str::slug($form_data['title']);
-
-        $count = 1;
-        while (Post::where('slug', $slugTmp)->where('slug', "!=", $post->id)->first()) {
-            $slugTmp = Str::slug($form_data['title']) . "-" . $count;
-            $count++;
+        if ($post->title == $form_data['title']) {
+            $slug = $post->slug;
+        } else {
+            $slug = Str::slug($form_data['title']);
+            $count = 1;
+            while (Post::where('slug', $slug)
+                ->where('slug', "!=", $post->id)
+                ->first()
+            ) {
+                $slug = Str::slug($form_data['title']) . "-" . $count;
+                $count++;
+            }
         }
 
-        $form_data['slug'] = $slugTmp;
+        $form_data['slug'] = $slug;
 
         $post->update($form_data);
         return redirect()->route('admin.posts.index');
