@@ -16,6 +16,7 @@
                 <tr>
                   <th scope="col">ID</th>
                   <th scope="col">Titolo</th>
+                  <th scope="col">Categoria</th>
                   <th scope="col">Azioni</th>
                 </tr>
               </thead>
@@ -24,6 +25,7 @@
                   <tr>
                     <th scope="row">{{ $post->id }}</th>
                     <td>{{ $post->title }}</td>
+                    <td>{{ $post->category ? $post->category->name : '-' }}</td>
                     <td>
                       <a href="{{ route('admin.posts.show', ['post' => $post->id]) }}" class="btn btn-info m-1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
